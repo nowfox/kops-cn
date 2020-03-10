@@ -1,8 +1,8 @@
 #!/bin/bash
 
-KOPS_VERSION='1.15.2'
+KOPS_VERSION='1.16.0'
 # K8s recommended version for Kops: https://github.com/kubernetes/kops/blob/master/channels/stable
-K8S_RECOMMENDED_VERSION='1.15.7'
+K8S_RECOMMENDED_VERSION='1.16.7'
 
 KUBERNETES_ASSETS=(
   release/v${K8S_RECOMMENDED_VERSION}/
@@ -23,10 +23,10 @@ mirror_kubernetes_release(){
 }
 
 sync_release_to_s3(){
-    aws --profile=zhy s3 sync ./kubernetes-release/ s3://kubernetes-release/ --acl public-read
+    aws --profile=zhy s3 sync ./kubernetes-release/ s3://kops-kubernetes-release/ --acl public-read
 }
 
-mirror_kubeupv2(){
+mirror_kops-kubeupv2(){
     TMPDIR="/tmp/kops/$KOPS_VERSION"
     for platform in linux darwin
     do
@@ -51,18 +51,18 @@ mirror_kubeupv2(){
     p=protokube.tar.gz
     wget -c https://kubeupv2.s3.amazonaws.com/kops/$KOPS_VERSION/images/$p -O $TMPDIR/images/$p
     wget -c https://kubeupv2.s3.amazonaws.com/kops/$KOPS_VERSION/images/$p.sha1 -O $TMPDIR/images/$p.sha1
-    aws --profile zhy s3 sync $TMPDIR/ s3://kubeupv2/kops/$KOPS_VERSION/ --acl public-read
+    aws --profile zhy s3 sync $TMPDIR/ s3://kops-kubeupv2/kops/$KOPS_VERSION/ --acl public-read
 }
 
 
 
 mirror_fileRepo(){
-    aws --profile zhy s3 sync s3://kubernetes-release/ s3://kops-file/fileRepository/kubernetes-release/ --acl public-read
-    aws --profile zhy s3 sync s3://kubeupv2/ s3://kops-file/fileRepository/kubeupv2/ --acl=public-read
-    aws --profile zhy s3 sync s3://kubeupv2/kops/$KOPS_VERSION s3://kops-file/fileRepository/kops/$KOPS_VERSION --acl public-read 
+    aws --profile zhy s3 sync s3://kops-kubernetes-release/ s3://kops-file/fileRepository/kubernetes-release/ --acl public-read
+    aws --profile zhy s3 sync s3://kops-kubeupv2/ s3://kops-file/fileRepository/kubeupv2/ --acl=public-read
+    aws --profile zhy s3 sync s3://kops-kubeupv2/kops/$KOPS_VERSION s3://kops-file/fileRepository/kops/$KOPS_VERSION --acl public-read 
 }
 
 mirror_kubernetes_release && \
 sync_release_to_s3 && \
-mirror_kubeupv2 && \
+mirror_kops-kubeupv2 && \
 mirror_fileRepo
