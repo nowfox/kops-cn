@@ -14,7 +14,7 @@ phases:
   pre_build:
     commands:
       - echo "enable BBR"
-      - whoami
+      - modprobe br_netfilter
       - bash ./BBR.sh
       - echo "authenticate to Amazon ECR(cn-northwest-1)"
       - bash ./mirror/codebuild/bin/zhy_ecr_auth.sh
