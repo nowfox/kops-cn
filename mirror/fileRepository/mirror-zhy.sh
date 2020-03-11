@@ -62,7 +62,7 @@ mirror_fileRepo(){
     aws --profile zhy s3 sync s3://kops-kubeupv2/kops/$KOPS_VERSION s3://kops-file/fileRepository/kops/$KOPS_VERSION --acl public-read 
 }
 
-mirror_kubernetes_release && \
-sync_release_to_s3 && \
-mirror_kops-kubeupv2 && \
+mirror_kubernetes_release
+sync_release_to_s3
+mirror_kops-kubeupv2
 mirror_fileRepo

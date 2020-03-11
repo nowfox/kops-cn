@@ -21,7 +21,7 @@
 - [x] 集群创建过程中所需的二进制文件或配置文件已存放在 **宁夏** 区域的`Amazon S3`桶中 。
 - [x] 简单快速的集群搭建和部署
 - [x] 无需任何VPN代理或翻墙设置
-- [x] 如有新的Docker镜像拉取需求，您可以创建Github push or pull request,您的request会触发**CodeBuild**([buildspec-zhy.yml](https://github.com/nwcdlabs/kops-cn/blob/master/buildspec-zhy.yml))  去拉取镜像并存放到AWS `cn-northwest-1` 的ECR中。查看： [镜像列表](https://github.com/nwcdlabs/kops-cn/blob/master/mirror/required-images.txt).
+- [x] 如有新的Docker镜像拉取需求，您可以创建Github push or pull request,您的request会触发**CodeBuild**([buildspec-zhy.yml](./buildspec-zhy.yml))  去拉取镜像并存放到AWS `cn-northwest-1` 的ECR中。查看： [镜像列表](./mirror/required-images.txt).
 - [x] 一个`make create-cluster`命令即可创建集群
 
 
