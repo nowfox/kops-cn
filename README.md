@@ -17,11 +17,11 @@
 
 
 # 特性
-- [x] 集群创建过程中所需的docker镜像已存放在 **宁夏** 或 **北京** 区域的`Amazon ECR`中。
-- [x] 集群创建过程中所需的二进制文件或配置文件已存放在 **北京** 区域的`Amazon S3`桶中 。
+- [x] 集群创建过程中所需的docker镜像已存放在 **宁夏** 区域的`Amazon ECR`中。
+- [x] 集群创建过程中所需的二进制文件或配置文件已存放在 **宁夏** 区域的`Amazon S3`桶中 。
 - [x] 简单快速的集群搭建和部署
 - [x] 无需任何VPN代理或翻墙设置
-- [x] 如有新的Docker镜像拉取需求，您可以创建Github push or pull request,您的request会触发**CodeBuild**([buildspec.yml](https://github.com/nwcdlabs/kops-cn/blob/master/buildspec.yml))  去拉取镜像并存放到AWS `cn-north-1` 的ECR中。查看： [镜像列表](https://github.com/nwcdlabs/kops-cn/blob/master/mirror/required-images.txt).
+- [x] 如有新的Docker镜像拉取需求，您可以创建Github push or pull request,您的request会触发**CodeBuild**([buildspec-zhy.yml](https://github.com/nwcdlabs/kops-cn/blob/master/buildspec-zhy.yml))  去拉取镜像并存放到AWS `cn-northwest-1` 的ECR中。查看： [镜像列表](https://github.com/nwcdlabs/kops-cn/blob/master/mirror/required-images.txt).
 - [x] 一个`make create-cluster`命令即可创建集群
 
 
@@ -30,7 +30,7 @@
 
 `kops-cn`专案保持跟[上游kops专案](https://github.com/kubernetes/kops)版本一致, 上游最新的kops版本可以在[kubernetes/kops/releases/latest](https://github.com/kubernetes/kops/releases/latest)查看, 而kops对应的建议k8s版本，则可以从[stable channels](https://github.com/kubernetes/kops/blob/master/channels/stable)查看。
 
-目前提供`1.13` , `1.14` and `1.15`三个主要版本提供选择，default是`1.15`
+目前提供`1.13` , `1.14` , `1.15` 和`1.16`三个主要版本提供选择，default是`1.16`
 
 此`README`文件最后一次更新时间所对应的稳定版本是：
 
@@ -39,6 +39,7 @@
 | 1.13 | 1.13.0([#101](https://github.com/nwcdlabs/kops-cn/issues/101)) | 1.13.12      | kope.io/k8s-1.12-debian-stretch-amd64-hvm-ebs-2019-05-13（[#96](https://github.com/nwcdlabs/kops-cn/issues/96)） |
 | 1.14 | 1.14.1([#116](https://github.com/nwcdlabs/kops-cn/issues/116)) | 1.14.8      | kope.io/k8s-1.12-debian-stretch-amd64-hvm-ebs-2019-05-13（[#96](https://github.com/nwcdlabs/kops-cn/issues/96)） |
 | 1.15 | 1.15.0([#118](https://github.com/nwcdlabs/kops-cn/issues/118)) | 1.15.5 | kope.io/k8s-1.12-debian-stretch-amd64-hvm-ebs-2019-05-13（[#96](https://github.com/nwcdlabs/kops-cn/issues/96)） |
+| 1.16 | 1.16.0 | 1.16.7 | kope.io/k8s-1.12-debian-stretch-amd64-hvm-ebs-2019-05-13（[#96](https://github.com/nwcdlabs/kops-cn/issues/96)） |
 
 
 
@@ -56,17 +57,17 @@ $ cd kops-cn-master
 您也可以直接从以下链接的AWS中国区域的S3桶中下载 `kops` and `kubectl` 的二进制文件：
 
 ```bash
-kops_version='1.15.0'
-k8s_version='v1.15.5'
+kops_version='1.16.0'
+k8s_version='v1.16.7'
 #
 # for Linux Environment
 #
 # download kops for linux
-$ curl -L https://s3.cn-north-1.amazonaws.com.cn/kops-bjs/fileRepository/kops/$kops_version/linux/amd64/kops -o kops
+$ curl -L https://s3.cn-northwest-1.amazonaws.com.cn/kops-file/fileRepository/kops/$kops_version/linux/amd64/kops -o kops
 $ chmod +x $_
 
 # download kubectl for linux
-$ curl -L https://s3.cn-north-1.amazonaws.com.cn/kops-bjs/fileRepository/kubernetes-release/release/$k8s_version/bin/linux/amd64/kubectl -o kubectl
+$ curl -L https://s3.cn-northwest-1.amazonaws.com.cn/kops-file/fileRepository/kubernetes-release/release/$k8s_version/bin/linux/amd64/kubectl -o kubectl
 $ chmod +x $_
 
 #
@@ -74,11 +75,11 @@ $ chmod +x $_
 #
 
 # download kops for mac os x
-$ curl -L https://s3.cn-north-1.amazonaws.com.cn/kops-bjs/fileRepository/kops/$kops_version/darwin/amd64/kops -o kops
+$ curl -L https://s3.cn-northwest-1.amazonaws.com.cn/kops-file/fileRepository/kops/$kops_version/darwin/amd64/kops -o kops
 $ chmod +x $_
 
 # download kubectl for mac os x
-$ curl -L https://s3.cn-north-1.amazonaws.com.cn/kops-bjs/fileRepository/kubernetes-release/release/$k8s_version/bin/darwin/amd64/kubectl -o kubectl
+$ curl -L https://s3.cn-northwest-1.amazonaws.com.cn/kops-bjs/fileRepository/kubernetes-release/release/$k8s_version/bin/darwin/amd64/kubectl -o kubectl
 $ chmod +x $_
 
 
@@ -131,9 +132,9 @@ make create-cluster
 make edit-cluster
 ```
 
-将 `spec.yml` 中内容贴到`spec` 下并保存退出。
+将 `spec-zhy.yml` 中内容贴到`spec` 下并保存退出。
 
-![](https://user-images.githubusercontent.com/278432/47897276-084ff880-deac-11e8-92db-b2fdf10e10b4.png)
+![](./images/spec-zhy.png)
 
 6. 更新集群
 ```
@@ -197,8 +198,8 @@ make delete-cluster
 ## 我可以把master nodes运行在private subnet吗？如何配置？
 参考这个说明:[#94](https://github.com/nwcdlabs/kops-cn/issues/94#issuecomment-512844772)
 
-## 如何使用最新的Kops 1.13?
-Kops上游[已经relaese](https://github.com/kubernetes/kops/releases/tag/1.13.0) 1.13版本, 目前已经验证可以运行在北京与宁夏Region，请参考这个说明（[#101](https://github.com/nwcdlabs/kops-cn/issues/101)）直接在make命令前指定版本即可，请注意，Kops client客户端也要升级到相应的版本，可以用
+## 如何使用最新的Kops 1.16?
+Kops上游[已经relaese](https://github.com/kubernetes/kops/releases/tag/1.16.0) 1.16版本, 目前已经验证可以运行在北京与宁夏Region，请参考这个说明（[#101](https://github.com/nwcdlabs/kops-cn/issues/101)）直接在make命令前指定版本即可，请注意，Kops client客户端也要升级到相应的版本，可以用
 
 ```bash
 kops version
