@@ -2,7 +2,7 @@
 
 KOPS_VERSION='1.16.0'
 # K8s recommended version for Kops: https://github.com/kubernetes/kops/blob/master/channels/stable
-K8S_RECOMMENDED_VERSION='${1-1.16.7}'
+K8S_RECOMMENDED_VERSION="${1-1.16.7}"
 
 KUBERNETES_ASSETS=(
   release/v${K8S_RECOMMENDED_VERSION}/
