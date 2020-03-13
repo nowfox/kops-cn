@@ -7,19 +7,5 @@
 # Example
 # k8s.gcr.io/coredns:1.3.1
 
-# Required for eksworkshop.com
-k8s.gcr.io/hpa-example
-gcr.io/google_containers/metrics-server-amd64:v0.3.1
-k8s.gcr.io/cluster-autoscaler:v1.2.2
 
-# Required for TiDB
-quay.io/external_storage/local-volume-provisioner:v2.2.0
-
-# Required for aws-iam-authenticator
-602401143452.dkr.ecr.us-west-2.amazonaws.com/amazon/aws-iam-authenticator:v0.4.0
-
-
-# deprecating old images
-kopeio/etcd-manager:1.0.20181001
-
-
+602401143452.dkr.ecr.us-west-2.amazonaws.com/cni-metrics-helper:v1.6.0
