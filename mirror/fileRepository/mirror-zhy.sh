@@ -1,8 +1,8 @@
 #!/bin/bash
 
-KOPS_VERSION='1.16.0'
+KOPS_VERSION='1.15.0'
 # K8s recommended version for Kops: https://github.com/kubernetes/kops/blob/master/channels/stable
-K8S_RECOMMENDED_VERSION="${1-1.16.7}"
+K8S_RECOMMENDED_VERSION="${1-1.15.5}"
 
 KUBERNETES_ASSETS=(
   release/v${K8S_RECOMMENDED_VERSION}/
@@ -64,6 +64,8 @@ mirror_fileRepo(){
     aws --profile zhy s3 sync s3://kops-kubernetes-release/ s3://kops-file/fileRepository/kops-kubernetes-release/ --acl public-read
     aws --profile zhy s3 sync s3://kops-kubeupv2/ s3://kops-file/fileRepository/kubeupv2/ --acl=public-read
     aws --profile zhy s3 sync s3://kops-kubeupv2/kops/$KOPS_VERSION s3://kops-file/fileRepository/kops/$KOPS_VERSION --acl public-read
+	//下面这行，是因为network-plugins寻找路径问题，需要再部署一份
+	aws --profile zhy s3 sync s3://kops-file/fileRepository/kops-kubernetes-release/network-plugins/ s3://kops-file/fileRepository/kubernetes-release/network-plugins/ --acl public-read
 }
 
 mirror_kubernetes_release
