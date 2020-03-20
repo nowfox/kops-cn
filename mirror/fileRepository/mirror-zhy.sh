@@ -60,11 +60,11 @@ mirror_kops-kubeupv2(){
 
 
 mirror_fileRepo(){
-    //在下面这行，s3://kops-file/fileRepository/kops-kubernetes-release/的kops-kubernetes-release必须和前面s3://kops-kubernetes-release/保持一致
+    # 在下面这行，s3://kops-file/fileRepository/kops-kubernetes-release/的kops-kubernetes-release必须和前面s3://kops-kubernetes-release/保持一致
     aws --profile zhy s3 sync s3://kops-kubernetes-release/ s3://kops-file/fileRepository/kops-kubernetes-release/ --acl public-read
     aws --profile zhy s3 sync s3://kops-kubeupv2/ s3://kops-file/fileRepository/kubeupv2/ --acl=public-read
     aws --profile zhy s3 sync s3://kops-kubeupv2/kops/$KOPS_VERSION s3://kops-file/fileRepository/kops/$KOPS_VERSION --acl public-read
-	//下面这行，是因为network-plugins寻找路径问题，需要再部署一份
+	# 下面这行，是因为network-plugins寻找路径问题，需要再部署一份
 	aws --profile zhy s3 sync s3://kops-file/fileRepository/kops-kubernetes-release/network-plugins/ s3://kops-file/fileRepository/kubernetes-release/network-plugins/ --acl public-read
 }
 
